@@ -1,26 +1,20 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+interface IProps {
+  callback: (arg: number) => void;
+}
+
+function App({ callback }: IProps) {
+  const runCallback = React.useCallback(() => {
+    callback(0);
+
+    // We need to have this second call to happen in the next event loop.
+    setTimeout(() => callback(1), 0);
+  }, [callback]);
+
+  return <button onClick={runCallback} />;
 }
 
 export default App;
